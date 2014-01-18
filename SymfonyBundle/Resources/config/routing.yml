@@ -1,0 +1,3 @@
+yanyabo_symfony_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: YanyaboSymfonyBundle:Default:index }

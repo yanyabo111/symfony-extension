@@ -1,0 +1,15 @@
+{
+    "name": "yanyabo/symfony-bundle",
+    "description": "Some extension for symfony",
+    "keywords": ["symfony","extension"],
+    "type": "yanyabo-symfony-bundle",
+    "require": {
+        "php": ">=5.4",
+        "snc/redis-bundle": "1.1.x-dev",
+        "predis/predis": "0.8.x-dev"
+    },
+    "autoload": {
+        "psr-0": { "Yanyabo\\SymfonyBundle": "" }
+    },
+    "target-dir": "Yanyabo/SymfonyBundle"
+}
