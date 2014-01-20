@@ -1,6 +1,6 @@
 <?php
 
-namespace Yanyabo\SymfonyBundle\Base;
+namespace Yanyabo\SymfonyBundle\Model;
 
 use Doctrine\ORM\EntityRepository;
 
@@ -31,12 +31,32 @@ class Model extends EntityRepository
      * @param int   $perPage 每页的 item 数量
      * @return pagination    knp bundle 的 pagination 对象，可以获取 items 和 view
      */
-    protected function getPagination($query, $perPage)
+    protected function getPagination($perPage)
     {
         $page = $this->_container->get('request')->get('page', 1);
 
         $paginator = $this->_container->get('knp_paginator');
 
-        return $paginator->paginate($query, $page, $perPage, array('distinct' => false));
+        return $paginator->paginate($this->_qb->getQuery(), $page, $perPage, array('distinct' => false));
+    }
+
+    protected function getResults($max = null)
+    {
+        return $this->_qb->getQuery()
+                    ->useResultCache(true, 300)
+                    ->useQueryCache(true)
+                    ->setParameters($this->_pars)
+                    ->setMaxResults($max)
+                    ->getResult();
+    }
+
+    protected function getOneResult()
+    {
+        return $this->_qb->getQuery()
+                    ->useResultCache(true, 300)
+                    ->useQueryCache(true)
+                    ->setParameters($this->_pars)
+                    ->setMaxResults(1)
+                    ->getOneOrNullResult();
     }
 }

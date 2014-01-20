@@ -1,6 +1,6 @@
 <?php
 
-namespace Yanyabo\SymfonyBundle\Base;
+namespace Yanyabo\SymfonyBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
