@@ -11,6 +11,8 @@ class Model extends EntityRepository
      */
     public $entity = '';
 
+    public $_pars = [];
+
     public function __construct($container, $class = null)
     {
         $nameSpace  = explode('\\', get_class($this));
@@ -37,7 +39,9 @@ class Model extends EntityRepository
 
         $paginator = $this->_container->get('knp_paginator');
 
-        return $paginator->paginate($this->_qb->getQuery(), $page, $perPage, array('distinct' => false));
+        $query = $this->_qb->setParameters($this->_pars)->getQuery();
+
+        return $paginator->paginate($query, $page, $perPage, array('distinct' => false));
     }
 
     protected function getResults($max = null)
