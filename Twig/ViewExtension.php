@@ -21,12 +21,16 @@ class ViewExtension extends \Twig_Extension
      *
      * @param string $name    包含 controller 名称和相应方法名称的字符串，比如"Default:website" 调用 DefaultCotroller 里面的 websiteView 方法
      * @param int    $seconds redis 的缓存时间
+     * @param mixed  $tag     缓存标识
      * @return string         生成的 view，就是原始的 html 代码
      */
-    public function getView($name, $seconds = 2)
+    public function getView($name, $seconds = 2, $tag = null)
     {
         $redis = $this->container->get('snc_redis.default');
-        if ($cache = $redis->get($name)) return $cache;
+
+        $key = $tag ? $name . ':'.$tag : $name;
+
+        if ($cache = $redis->get($key)) return $cache;
 
         $forward = explode(':', $name);
         
@@ -35,9 +39,9 @@ class ViewExtension extends \Twig_Extension
         $controller->setContainer($this->container);
 
         $method = strtolower($forward[3]).'View';
-        $view   = $controller->$method();
+        $view   = $controller->$method($tag);
 
-        $redis->setex($name, $seconds, $view);
+        $redis->setex($key, $seconds, $view);
 
         return $view;
     }
