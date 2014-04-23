@@ -83,15 +83,13 @@ class Controller extends BaseController
     }
 
     /**
-     * 返回 json 格式的数据
-     *
-     * @param array $data 需要返回的数据
-     * @return response   json 格式的回复
+     * json response
      */
-    protected function json($data)
+    protected function json($data, $maxAge = 60)
     {
-        $response = new Response(json_encode($data));
-        $response->headers->set('Content-Type', 'application/json');
+        $response = new \Symfony\Component\HttpFoundation\JsonResponse($data);
+
+        $response->setCache(['max_age' => $maxAge, 'public' => true]);
 
         return $response;
     }
