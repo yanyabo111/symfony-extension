@@ -5,6 +5,6 @@ services:
     yanyabo_symfony.twig.view_extension:
         class: Yanyabo\SymfonyBundle\Twig\ViewExtension
         arguments: 
-            - @service_container
+            - "@service_container"
         tags:
             - { name: twig.extension }
